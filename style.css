@@ -1,0 +1,10 @@
+.dt-button.buttons-copy,.dt-button.buttons-csv,.dt-button.buttons-excel,.dt-button.buttons-pdf,.dt-button.buttons-print {
+    
+    color: white;
+    background-color: dodgerblue;
+}
+
+.dt-button.buttons-copy:hover:not(.disabled),.dt-button.buttons-csv:hover:not(.disabled),.dt-button.buttons-excel:hover:not(.disabled),.dt-button.buttons-pdf:hover:not(.disabled),.dt-button.buttons-print:hover:not(.disabled){
+    background-color: royalblue;
+    border: 1px solid #666;
+}
