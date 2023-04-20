@@ -97,6 +97,7 @@ $(document).ready(function() {
         // buttons: dataExport(tableProps),
         dom: 'Bfrtip',
         buttons:dataExport(tableProps),
+        
         scrollY:        600,
         scrollX:        true,
         scrollCollapse: true,
@@ -116,6 +117,7 @@ $(document).ready(function() {
             });
             rowSelected();
             rowClickEventTriggered();
+            
             // addDataFilterHead();
         }
     } );
