@@ -187,27 +187,27 @@ function dataExport(tableProps) {
         return [
             {
                 extend: 'copy',
-                text: '<i class="fa fa-copy icon-large"></i>',
+                text: '<i class="fas fa-clone fa-2x text-primary"></i>',
                 titleAttr: 'Copy'
             },
             {
                 extend: 'csv',
-                text: '<i class="fa fa-file-csv icon-large"></i>',
+                text: '<i class="fas fa-file-csv fa-2x text-success"></i>',
                 titleAttr: 'Csv'
             },
             {
                 extend: 'excel',
-                text: '<i class="fa fa-file-excel icon-large"></i>',
+                text: '<i class="fa fa-file-excel fa-2x text-warning"></i>',
                 titleAttr: 'Excel'
             },
             {
                 extend: 'pdf',
-                text: '<i class="fa fa-file-pdf icon-large"></i>',
+                text: '<i class="fas fa-file-pdf fa-2x text-danger"></i>',
                 titleAttr: 'PDF'
             },
             {
                 extend: 'print',
-                text: '<i class="fa fa-print icon-large"></i>',
+                text: '<i class="fa fa-print fa-2x icon-large"></i>',
                 titleAttr: 'Print'
             }
         ];
