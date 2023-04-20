@@ -11,20 +11,25 @@
 
 .dt-button.buttons-html5{
     background-color: white;
-    padding-top:10px;
+    /* padding-top:10px;
     padding-bottom:10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border: none;
+    padding-left: 10px;
+    padding-right: 10px; */
+    padding: 10px;
     
+    border: none;
+   
+
     
 }
 .dt-button.buttons-print {
     background-color: white;
     border: none;
-    padding-top:10px;
+    /* padding-top:10px;
     padding-bottom:10px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px; */
+    padding: 7px;
+    justify-content: space-between;
 
 }

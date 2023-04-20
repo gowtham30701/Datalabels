@@ -2,6 +2,9 @@ var table = document.createElement('table');
 var thead = document.createElement('thead');
 var trHeader = document.createElement('tr');
 var tbody = document.createElement('tbody');
+// var update = document.createElement('button');
+// update.innerText = "update"
+// update.id = "updateEditValue"
 function tableComponent(container, tableProps) {
     table.id = tableProps.id;
     table.className = tableProps.className;
@@ -25,7 +28,7 @@ function tableComponent(container, tableProps) {
         table.appendChild(document.createElement('tfoot')).appendChild(footerRow);
     }
     
-
+    // container.appendChild(update)
     container.appendChild(table);
 
 
@@ -73,7 +76,7 @@ function tableComponent(container, tableProps) {
    
 // });
 
-var editor;
+
 $(document).ready(function() {
     // Setup - add a text input to each footer cell
     
@@ -88,16 +91,16 @@ $(document).ready(function() {
         bFilter: tableProps.columnFilter,
         // sPaginationType: 'full_numbers',
         sDom: 'Rfrtlip',
-        rowReorder: {
-            selector: 'tr',
-            update: true
-          },
+        rowReorder:true,
         colReorder: tableProps.colReorder,
         // paging: true,
         // buttons: dataExport(tableProps),
         dom: 'Bfrtip',
+        // rowspan : rowsp
+        // rowGroup: {
+        //     dataSrc: 1
+        // },
         buttons:dataExport(tableProps),
-        
         scrollY:        600,
         scrollX:        true,
         scrollCollapse: true,
@@ -117,63 +120,15 @@ $(document).ready(function() {
             });
             rowSelected();
             rowClickEventTriggered();
-            
+            // rowDoubleClickEventTriggered(tableProps.tableData)
             // addDataFilterHead();
         }
     } );
-    
-    // editor = new $.fn.dataTable.Editor( {
-    //     table: "#myTable",
-    //     fields: [ {
-    //             label: "First name:",
-    //             name: "name"
-    //         }, {
-    //             label: "Age:",
-    //             name: "age"
-    //         }, {
-    //             label: "Email:",
-    //             name: "email"
-    //         },
-    //     ]
-    // } );
-
-    // $('#myTable').on( 'click', 'tbody td:not(:first-child)', function (e) {
-    //     editor.inline( this );
-    // } );
- 
-    // $('#myTable').DataTable( {
-    //     dom: "Bfrtip",
-    //     ajax: "../php/staff.php",
-    //     order: [[ 1, 'asc' ]],
-    //     columns: [
-    //         {
-    //             data: null,
-    //             defaultContent: '',
-    //             className: 'select-checkbox',
-    //             orderable: false
-    //         },
-    //         { data: "first_name" },
-    //         { data: "last_name" },
-    //         { data: "position" },
-    //         { data: "office" },
-    //         { data: "start_date" },
-    //         { data: "salary", render: $.fn.dataTable.render.number( ',', '.', 0, '$' ) }
-    //     ],
-    //     select: {
-    //         style:    'os',
-    //         selector: 'td:first-child'
-    //     },
-    //     buttons: [
-    //         { extend: "create", editor: editor },
-    //         { extend: "edit",   editor: editor },
-    //         { extend: "remove", editor: editor }
-    //     ]
-    // } );
+    // Apply the filter
    
 } );
 
 }
-
 
 function headerColumnFilter(){
     $('#myTable tfoot th').each( function () {
@@ -181,33 +136,32 @@ function headerColumnFilter(){
         $(this).html( '<input type="text" class="form-control" placeholder="Search '+title+'" />' );
     } );
 }
-
 function dataExport(tableProps) {
     if (tableProps.dataExport) {
         return [
             {
                 extend: 'copy',
-                text: '<i class="fas fa-clone fa-2x text-primary"></i>',
+                text: '<i class="fas fa-clone fa-lg text-primary" ></i>',
                 titleAttr: 'Copy'
             },
             {
                 extend: 'csv',
-                text: '<i class="fas fa-file-csv fa-2x text-success"></i>',
+                text: '<i class="fas fa-file-csv fa-lg text-success"></i>',
                 titleAttr: 'Csv'
             },
             {
                 extend: 'excel',
-                text: '<i class="fa fa-file-excel fa-2x text-warning"></i>',
+                text: '<i class="fa fa-file-excel fa-lg text-warning"></i>',
                 titleAttr: 'Excel'
             },
             {
                 extend: 'pdf',
-                text: '<i class="fas fa-file-pdf fa-2x text-danger"></i>',
+                text: '<i class="fas fa-file-pdf fa-lg text-danger"></i>',
                 titleAttr: 'PDF'
             },
             {
                 extend: 'print',
-                text: '<i class="fa fa-print fa-2x icon-large"></i>',
+                text: '<i class="fa fa-print fa-lg text-warning"></i>',
                 titleAttr: 'Print'
             }
         ];
@@ -234,20 +188,79 @@ function headerDataBound(tableProps) {
 
 function dataBound(tableProps) {
     for (const row of tableProps.tableData) {
-        const tr = document.createElement("tr");
-        for (const key in row) {
-            const td = document.createElement("td");
-            td.textContent = row[key];
-            tr.appendChild(td);
-        } tbody.appendChild(tr);
-        //   tr.addEventListener('click', function () {
-        //     rowClickEventTriggered(row, tr, tbody, tableProps.tableData);
-        //   });
+      const tr = document.createElement("tr");
+  
+      // Create columns for each property in the row
+      for (const key in row) {
+        const td = document.createElement("td");
+        td.classList.add("data");
+        td.textContent = row[key];
+        tr.appendChild(td);
+      }
+      const actionsTd = document.createElement("td");
+
+      const editBtn = document.createElement("button");
+      editBtn.textContent = "Edit";
+      editBtn.classList.add("edit","btn","btn-primary");
+      actionsTd.appendChild(editBtn);
+      
+      const saveBtn = document.createElement("button");
+      saveBtn.textContent = "Save";
+      saveBtn.classList.add("save","btn","btn-success");
+      saveBtn.style.display = "none";
+      actionsTd.appendChild(saveBtn);
+      
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Delete";
+      deleteBtn.classList.add("delete","btn","btn-danger");
+      actionsTd.appendChild(deleteBtn);
+      
+  
+      tr.appendChild(actionsTd);
+      tbody.appendChild(tr);
     }
     table.appendChild(thead);
     table.appendChild(tbody);
-
-}
+  }
+  
+ 
+  
+  $(document).on('click', '.edit', function() {
+    $(this).parent().siblings('td.data').each(function() {
+      var content = $(this).html();
+      $(this).html('<input value="' + content + '" class="form-control"/>');
+    });
+    
+    $(this).siblings('.save').show();
+    $(this).siblings('.delete').hide();
+    $(this).hide();
+  });
+  
+  $(document).on('click', '.save', function() {
+    
+    $('input').each(function() {
+      var content = $(this).val();
+      $(this).html(content);
+      $(this).contents().unwrap();
+    });
+    $(this).siblings('.edit').show();
+    $(this).siblings('.delete').show();
+    $(this).hide();
+    
+  });
+  
+  
+  $(document).on('click', '.delete', function() {
+    $(this).parents('tr').remove();
+  });
+  
+  // Delete row function
+  function deleteRow(rowData, rowElement) {
+    console.log("Delete row:", rowData);
+    // Remove the row element from the table body
+    rowElement.parentNode.removeChild(rowElement);
+  }
+  
 
 
 
@@ -280,6 +293,98 @@ function rowClickEventTriggered() {
     });
 }
 
+
+function rowDoubleClickEventTriggered(tableData) {
+    var table = $('#myTable').DataTable();
+    var new_values = [];
+    // $('#myTable').on('dblclick', 'tr', function() {
+    //     $(this).find('td').each(function() {
+    //       var cell_value = $(this).text();
+    //       $(this).html('<input type="text" value="' + cell_value + '">');
+    //     });
+    //   });
+    // $(document).ready(function() {
+        var editing = false;
+        // var editedValues = [];
+        
+          $('#myTable').on('dblclick', 'tr', function() {
+            var row_index = $(this).index();
+            console.log("Row " + row_index + " has been double-clicked");
+            if (editing) {
+              return;
+            }
+        
+            editing = true;
+        
+            
+            $(this).find('td').each(function() {
+              var cell_value = $(this).text();
+              $(this).data('original-value', cell_value);
+              $(this).html('<input type="text" value="' + cell_value + '">');
+             
+            });
+            
+            
+            $(this).find('input').first().focus();
+            $('#myTable tr').on('blur', 'input', function() {
+                var cell_value = $(this).val();
+                var $parent = $(this).parent();
+                var old_value = $parent.text();
+                if (cell_value !== old_value) {
+                  $parent.text(cell_value);
+                  //console.log(cell_value);
+                }
+                new_values.push(cell_value);
+                editing = false;
+              });
+              
+            //   console.log( tableData);
+            // $('#myTable').on('dblclick', 'tr', function() {
+               
+            //   });
+        //   $('#updateEditValue').on('click', function() {
+        //     var cell_value = $(this).val();
+        //     $(this).parent().text(cell_value);
+        //     console.log(cell_value)
+        //     editing = false;
+        //   });
+        
+        //   $('#updateEditValue').on('click', function() {
+        //     var row = $(this).closest('tr');
+        //     var row_index = row.index();
+        //     console.log("row : "+row_index)
+        //     var new_data = {};
+        
+        //     row.find('td').each(function() {
+        //       var column_index = $(this).index();
+        //       var input_val = $(this).find('input').val();
+        //       var cell_val = $(this).data('original-value');
+        //       var header_val = tableProps.headerData[column_index];
+        
+        //       if (input_val && input_val !== cell_val) {
+        //         new_data[header_val] = input_val;
+        //         console.log(new_data)
+        //       } else {
+        //         new_data[header_val] = cell_val;
+        //         console.log(new_data)
+        //       }
+        //     });
+        
+        //     tableProps.tableData[row_index] = new_data;
+        //     console.log(new_data)
+        //     row.find('td').each(function() {
+        //       var cell_value = $(this).find('input').val();
+        //       $(this).html(cell_value);
+        //       $(this).data('original-value', cell_value);
+        //     });
+        
+        //     editing = false;
+        //   });
+        // });
+        
+            });
+            console.log(new_values)
+}
 // function columnFilter(){
 //     $('#myTable tfoot th').each( function () {
 //         var title = $('#myTable thead th').eq( $(this).index() ).text();
@@ -320,11 +425,3 @@ function addDataFilterHead() {
         } );
     });
 }
-
-
-
-// <button class="btn"><i class="fa fa-home"></i></button>
-// <button class="btn"><i class="fa fa-bars"></i></button>
-// <button class="btn"><i class="fa fa-trash"></i></button>
-// <button class="btn"><i class="fa fa-close"></i></button>
-// <button class="btn"><i class="fa fa-folder"></i></button>
